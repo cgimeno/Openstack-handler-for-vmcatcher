@@ -3,11 +3,11 @@ Openstack handler for vmcatcher
 
 This software, fills the gap between [vmcatcher](https://github.com/hepix-virtualisation/vmcatcher) and [glancepush](https://github.com/EGI-FCTF/glancepush/wiki)
 
-Register and create required files to each new image manually doesn't make any sense, so I've developed my own solution for OpenStack
+Registering and creating required files to each new image manually doesn't make any sense, so I've developed my own solution for OpenStack
 
 Requirements:
 
- - **Python 2.7.3 ** (Tested)
+ - **Python 2.7.3** (Tested)
  - **qemu-img 1.2.0+** (You'll need to convert images from VMDK to qcow2 format)
  
 
