@@ -1,3 +1,8 @@
+gpvcmupdate - 0.0.2
+
+  * Added a parameter to (un)protect images uploaded to glance
+  * Cleaned up code
+
 gpvcmupdate - 0.0.1
 
   Added setup.py
