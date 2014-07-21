@@ -45,6 +45,9 @@ def main():
     dir_cache = os.getenv('VMCATCHER_CACHE_DIR_CACHE', 0)
     event_dc_title = os.getenv('VMCATCHER_EVENT_DC_TITLE', 0)
     identifier = os.getenv('VMCATCHER_EVENT_DC_IDENTIFIER')
+    if (os.getenv('VMCATCHER_EVENT_TYPE') == 'ProcessPrefix') or (os.getenv('VMCATCHER_EVENT_TYPE') == 'ProcessPostfix') or (os.getenv('VMCATCHER_EVENT_TYPE') == 'ExpirePrefix'):
+        sys.stderr.write("Ignoring " + os.getenv('VMCATCHER_EVENT_TYPE') + " event.")
+        os._exit(0)
     if (dir_cache == 0) or (event_dc_title == 0) or (identifier == 0):
         sys.stderr.write("Some Variables are not set")
         os._exit(1)
