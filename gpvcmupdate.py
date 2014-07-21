@@ -65,17 +65,20 @@ def main():
         outfile.write(to_file)
         outfile.close()
 
-    if os.getenv('VMCATCHER_EVENT_TYPE') == 'ProcessPostfix':
+    if os.getenv('VMCATCHER_EVENT_TYPE') == 'ExpirePostfix':
         # We need to check if image is expired
         if os.path.isfile(os.getenv('VMCATCHER_CACHE_DIR_EXPIRE') + '/' + os.getenv('VMCATCHER_EVENT_FILENAME')):
             sys.stdout.write(" Removing " + image)
-            os.remove(image)
-            os.remove(metadata)
             os.remove(transform)
             os.remove(test)
-            # Remove expired images? Why? Why not?
+            # Tell vmcatcher to remove expired images 
             if args.delete:
-                os.remove(os.getenv('VMCATCHER_CACHE_DIR_EXPIRE') + '/' + os.getenv('VMCATCHER_EVENT_FILENAME'))
+                with open(image, "w") as outfile:
+                    outfile.write("file='#DELETE#'")
+                    outfile.close()
+            else:
+                os.remove(image)
+                os.remove(metadata)
     elif os.getenv('VMCATCHER_EVENT_TYPE') == 'AvailablePostfix':
         # Wait! Is an OVA Image?
         if os.getenv('VMCATCHER_EVENT_HV_FORMAT').lower() == "ova":
