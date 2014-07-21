@@ -119,7 +119,8 @@ def main():
             outfile.write("cat")
             outfile.close()
         #Grant execution access to owner
-        os.chmod(transform, stat.S_IEXEC)
+        st = os.stat(transform)
+        os.chmod(transform,st.st_mode | stat.S_IEXEC)
     pass
 
 
