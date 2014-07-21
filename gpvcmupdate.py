@@ -97,7 +97,7 @@ def main():
         sys.stdout.write("Creating Metadata Files")
         with open(metadata, "w") as outfile:
             outfile.write("comment=\"" + os.getenv('VMCATCHER_EVENT_SL_COMMENTS') + "\"\n")
-            outfile.write("is_public=\"no\"\n")
+            outfile.write("is_public=\"yes\"\n")
             if args.protected:
                 outfile.write("is_protected=\"yes\"\n")
             else:
