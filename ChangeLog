@@ -1,3 +1,12 @@
+gpvcmupdate - 0.0.3
+
+  * Ignore unhandled events
+  * Cleaned up code
+  * Support for image deletion
+  * Set exit code to 0 for events which are not handled by this handler
+  * If -D is specified, the expired image is deleted. This fix passes the delete command to vmcatcher (to deregister the image from openstack) instead of just deleting the image from the cache. Also, the event name has been fixed to serve ExpirePostfix
+  * publish additional metadata
+
 gpvcmupdate - 0.0.2
 
   * Added a parameter to (un)protect images uploaded to glance
