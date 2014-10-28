@@ -1,3 +1,7 @@
+gpvcmupdate - 0.0.4
+  * Fixed some bugs when endorser doesn't fill all data, such as comments
+  * Added support to the new event enviroment variable, VMCATCHER_EVENT_VO
+
 gpvcmupdate - 0.0.3
 
   * Ignore unhandled events
