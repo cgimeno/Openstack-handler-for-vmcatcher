@@ -29,7 +29,7 @@ def main():
     transform_dir = "/etc/glancepush/transform/"
     test_dir = "/etc/glancepush/test/"
     temp_dir = "/tmp/"
-    image_metadata = { 'VMCATCHER_EVENT_TYPE' : 'VMCATCHER_EVENT_TYPE', 'VMCATCHER_EVENT_DC_DESCRIPTION' : 'VMCATCHER_EVENT_DC_DESCRIPTION', 'VMCATCHER_EVENT_DC_IDENTIFIER' : 'VMCATCHER_EVENT_DC_IDENTIFIER', 'VMCATCHER_EVENT_DC_TITLE' : 'VMCATCHER_EVENT_DC_TITLE', 'VMCATCHER_EVENT_HV_HYPERVISOR': 'VMCATCHER_EVENT_HV_HYPERVISOR', 'VMCATCHER_EVENT_HV_SIZE' : 'VMCATCHER_EVENT_HV_SIZE', 'VMCATCHER_EVENT_HV_URI' : 'VMCATCHER_EVENT_HV_URI', 'VMCATCHER_EVENT_HV_FORMAT' : 'VMCATCHER_EVENT_HV_FORMAT', 'VMCATCHER_EVENT_HV_VERSION' : 'VMCATCHER_EVENT_HV_VERSION', 'VMCATCHER_EVENT_SL_ARCH' : 'VMCATCHER_EVENT_SL_ARCH', 'VMCATCHER_EVENT_SL_CHECKSUM_SHA512' : 'VMCATCHER_EVENT_SL_CHECKSUM_SHA512', 'VMCATCHER_EVENT_SL_COMMENTS' : 'VMCATCHER_EVENT_SL_COMMENTS', 'VMCATCHER_EVENT_SL_OS' : 'VMCATCHER_EVENT_SL_OS', 'VMCATCHER_EVENT_SL_OSVERSION' : 'VMCATCHER_EVENT_SL_OSVERSION', 'VMCATCHER_EVENT_TYPE' : 'VMCATCHER_EVENT_TYPE', 'VMCATCHER_EVENT_IL_DC_IDENTIFIER' : 'VMCATCHER_EVENT_IL_DC_IDENTIFIER', 'VMCATCHER_EVENT_AD_MPURI' : 'VMCATCHER_EVENT_AD_MPURI', 'VMCATCHER_EVENT_FILENAME' : 'VMCATCHER_EVENT_FILENAME' }
+    image_metadata = { 'VMCATCHER_EVENT_TYPE' : 'VMCATCHER_EVENT_TYPE', 'VMCATCHER_EVENT_DC_DESCRIPTION' : 'VMCATCHER_EVENT_DC_DESCRIPTION', 'VMCATCHER_EVENT_DC_IDENTIFIER' : 'VMCATCHER_EVENT_DC_IDENTIFIER', 'VMCATCHER_EVENT_DC_TITLE' : 'VMCATCHER_EVENT_DC_TITLE', 'VMCATCHER_EVENT_HV_HYPERVISOR': 'VMCATCHER_EVENT_HV_HYPERVISOR', 'VMCATCHER_EVENT_HV_SIZE' : 'VMCATCHER_EVENT_HV_SIZE', 'VMCATCHER_EVENT_HV_URI' : 'VMCATCHER_EVENT_HV_URI', 'VMCATCHER_EVENT_HV_FORMAT' : 'VMCATCHER_EVENT_HV_FORMAT', 'VMCATCHER_EVENT_HV_VERSION' : 'VMCATCHER_EVENT_HV_VERSION', 'VMCATCHER_EVENT_SL_ARCH' : 'VMCATCHER_EVENT_SL_ARCH', 'VMCATCHER_EVENT_SL_CHECKSUM_SHA512' : 'VMCATCHER_EVENT_SL_CHECKSUM_SHA512', 'VMCATCHER_EVENT_SL_COMMENTS' : 'VMCATCHER_EVENT_SL_COMMENTS', 'VMCATCHER_EVENT_SL_OS' : 'VMCATCHER_EVENT_SL_OS', 'VMCATCHER_EVENT_SL_OSVERSION' : 'VMCATCHER_EVENT_SL_OSVERSION', 'VMCATCHER_EVENT_TYPE' : 'VMCATCHER_EVENT_TYPE', 'VMCATCHER_EVENT_IL_DC_IDENTIFIER' : 'VMCATCHER_EVENT_IL_DC_IDENTIFIER', 'VMCATCHER_EVENT_AD_MPURI' : 'VMCATCHER_EVENT_AD_MPURI', 'VMCATCHER_EVENT_VO' : 'VMCATCHER_EVENT_VO', 'VMCATCHER_EVENT_FILENAME' : 'VMCATCHER_EVENT_FILENAME' }
 
     # Option Parser
     parser = argparse.ArgumentParser(description="Used by vmcatcher as a hook for images updates from vmcatcher.\n"
@@ -39,7 +39,7 @@ def main():
                         dest="protected", default=False, help="Set protected flag in glance to true")
     parser.add_argument("-D", "--delete", action="store_true", dest="delete", default="false", help="Delete expired "
                                                                                                     "images")
-    parser.add_argument("--version", action="version", version="0.0.3")
+    parser.add_argument("--version", action="version", version="0.0.4")
     args = parser.parse_args()
 
     dir_cache = os.getenv('VMCATCHER_CACHE_DIR_CACHE', 0)
@@ -103,6 +103,11 @@ def main():
 
         sys.stdout.write("Creating Metadata Files")
         with open(metadata, "w") as outfile:
+            # Sometimes, comments are not defined by the endorser
+            try:
+               os.environ['VMCATCHER_EVENT_SL_COMMENTS']
+            except KeyError:
+               os.environ['VMCATCHER_EVENT_SL_COMMENTS'] = "undefined"
             outfile.write("comment=\"" + os.getenv('VMCATCHER_EVENT_SL_COMMENTS') + "\"\n")
             outfile.write("is_public=\"yes\"\n")
             if args.protected:
@@ -118,7 +123,12 @@ def main():
             i=0
             for metaname in image_metadata:
                 metavalue=os.getenv(image_metadata[metaname])
-                outfile.write("properties["+str(i)+"]='"+metaname+"="+metavalue+"'\n");
+                try:
+                   outfile.write("properties["+str(i)+"]='"+metaname+"="+metavalue+"'\n");
+                except TypeError:
+                   # Sometimes, not all metadata is filled by the endorser
+                   metavalue = "undefined"
+                   outfile.write("properties["+str(i)+"]='"+metaname+"="+metavalue+"'\n");
                 i=i+1
             outfile.close()
         # TODO: Load custom test script
@@ -133,7 +143,7 @@ def main():
             outfile.close()
         #Grant execution access to owner
         st = os.stat(transform)
-        os.chmod(transform,st.st_mode | stat.S_IEXEC)
+        os.chmod(transform, st.st_mode | stat.S_IEXEC)
     pass
 
 
