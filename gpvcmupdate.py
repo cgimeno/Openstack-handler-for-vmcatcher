@@ -39,7 +39,7 @@ def main():
                         dest="protected", default=False, help="Set protected flag in glance to true")
     parser.add_argument("-D", "--delete", action="store_true", dest="delete", default="false", help="Delete expired "
                                                                                                     "images")
-    parser.add_argument("--version", action="version", version="0.0.4")
+    parser.add_argument("--version", action="version", version="0.0.5")
     args = parser.parse_args()
 
     dir_cache = os.getenv('VMCATCHER_CACHE_DIR_CACHE', 0)

@@ -1,4 +1,9 @@
+gpvcmupdate - 0.0.5
+
+  * "is_public" atrribute is now set to "no" if VMCATCHER_EVENT_VO is set
+
 gpvcmupdate - 0.0.4
+
   * Fixed some bugs when endorser doesn't fill all data, such as comments
   * Added support to the new event enviroment variable, VMCATCHER_EVENT_VO
 
