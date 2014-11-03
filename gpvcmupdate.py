@@ -109,7 +109,15 @@ def main():
             except KeyError:
                os.environ['VMCATCHER_EVENT_SL_COMMENTS'] = "undefined"
             outfile.write("comment=\"" + os.getenv('VMCATCHER_EVENT_SL_COMMENTS') + "\"\n")
-            outfile.write("is_public=\"yes\"\n")
+            # Try to get VMCATCHER_EVENT_VO. If exception is not raised, then VO is defined
+            # and image shouldn't be public. If is raised, then VO is not defined, and the
+            # image should be public
+            try:
+                os.environ['VMCATCHER_EVENT_VO']
+                outfile.write("is_public=\"no\"\n")
+            except KeyError:
+                outfile.write("is_public=\"yes\"\n")
+
             if args.protected:
                 outfile.write("is_protected=\"yes\"\n")
             else:
