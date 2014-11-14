@@ -53,11 +53,11 @@ def main():
         os._exit(1)
 
     # I'm going to replace backslashes and spaces to avoid problems
-    image = spooldir + os.getenv('VMCATCHER_EVENT_DC_TITLE').replace(" ", "_").replace("/", "_")
+    image = spooldir + os.getenv('VMCATCHER_EVENT_DC_IDENTIFIER')
     sys.stdout.write(os.getenv('VMCATCHER_EVENT_TYPE'))
-    metadata = metadata_dir + os.getenv('VMCATCHER_EVENT_DC_TITLE').replace(" ", "_").replace("/", "_")
-    transform = transform_dir + os.getenv('VMCATCHER_EVENT_DC_TITLE').replace(" ", "_").replace("/", "_")
-    test = test_dir + os.getenv('VMCATCHER_EVENT_DC_TITLE').replace(" ", "_").replace("/", "_")
+    metadata = metadata_dir + os.getenv('VMCATCHER_EVENT_DC_IDENTIFIER')
+    transform = transform_dir + os.getenv('VMCATCHER_EVENT_DC_IDENTIFIER')
+    test = test_dir + os.getenv('VMCATCHER_EVENT_DC_IDENTIFIER')
 
     with open(image, "w") as outfile:
         if os.getenv('VMCATCHER_EVENT_HV_FORMAT').lower() == "ova":
@@ -103,6 +103,7 @@ def main():
 
         sys.stdout.write("Creating Metadata Files")
         with open(metadata, "w") as outfile:
+            outfile.write("image_name=\"" +os.getenv("VMCATCHER_EVENT_DC_TITLE")+ "\"\n")
             # Sometimes, comments are not defined by the endorser
             try:
                os.environ['VMCATCHER_EVENT_SL_COMMENTS']
