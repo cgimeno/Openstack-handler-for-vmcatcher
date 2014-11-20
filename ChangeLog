@@ -1,3 +1,7 @@
+gpvcmupdate - 0.0.7
+
+ * Improved support to delete Appliances and VO images
+
 gpvcmupdate - 0.0.5
 
   * "is_public" atrribute is now set to "no" if VMCATCHER_EVENT_VO is set
