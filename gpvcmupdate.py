@@ -77,8 +77,13 @@ def main():
             # Tell vmcatcher to remove expired images 
             if args.delete:
                 with open(image, "w") as outfile:
-                    outfile.write("file='#DELETE#'")
-                    outfile.close()
+                    outfile.write("file='#DELETE#'\n")
+                try:
+                    os.environ['VMCATCHER_EVENT_VO']
+                    outfile.write(os.environ['VMCATCHER_EVENT_VO'])
+                except:
+                    outfile.write('undefined')
+                outfile.close()
             else:
                 os.remove(image)
                 os.remove(metadata)
