@@ -3,11 +3,11 @@
 NAME: gpvmcupdate
 AUTOR: Carlos Gimeno
 EMAIL: cgimeno@bifi.es
-DESCPRTION: Used by vmcatcher as a hook for images updates from vmcatcher
-            Inform glancepush for image updates.
+DESCRIPTION: Used by vmcatcher as a hook for images updates from vmcatcher
+             Inform glancepush for image updates.
 
-            This program will write files on different locations, so run as root
-            (not recommended) or be careful with permissions!
+             This program will write files on different locations, so run as root
+             (not recommended) or be careful with permissions!
 """
 import os
 import sys
