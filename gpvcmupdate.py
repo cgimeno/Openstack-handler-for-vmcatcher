@@ -33,8 +33,8 @@ def main():
 
     # Option Parser
     parser = argparse.ArgumentParser(description="Used by vmcatcher as a hook for images updates from vmcatcher.\n"
-                                                 "It will create all neccesary files to upload downloaded images from"
-                                                 " vmcatcher to Glance, using glancepush")
+                                                 "It will create all necessary files to upload downloaded images from"
+                                                 " vmcatcher to glance, using glancepush")
     parser.add_argument("-p", "--protected", action="store_true",
                         dest="protected", default=False, help="Set protected flag in glance to true")
     parser.add_argument("-D", "--delete", action="store_true", dest="delete", default="false", help="Delete expired "
