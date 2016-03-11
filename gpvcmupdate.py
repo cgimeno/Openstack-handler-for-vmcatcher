@@ -3,11 +3,11 @@
 NAME: gpvmcupdate
 AUTOR: Carlos Gimeno
 EMAIL: cgimeno@bifi.es
-DESCPRTION: Used by vmcatcher as a hook for images updates from vmcatcher
-            Inform glancepush for image updates.
+DESCRIPTION: Used by vmcatcher as a hook for images updates from vmcatcher
+             Inform glancepush for image updates.
 
-            This program will write files on different locations, so run as root
-            (not recommended) or be careful with permissions!
+             This program will write files on different locations, so run as root
+             (not recommended) or be careful with permissions!
 """
 import os
 import sys
@@ -33,8 +33,8 @@ def main():
 
     # Option Parser
     parser = argparse.ArgumentParser(description="Used by vmcatcher as a hook for images updates from vmcatcher.\n"
-                                                 "It will create all neccesary files to upload downloaded images from"
-                                                 " vmcatcher to Glance, using glancepush")
+                                                 "It will create all necessary files to upload downloaded images from"
+                                                 " vmcatcher to glance, using glancepush")
     parser.add_argument("-p", "--protected", action="store_true",
                         dest="protected", default=False, help="Set protected flag in glance to true")
     parser.add_argument("-D", "--delete", action="store_true", dest="delete", default="false", help="Delete expired "
